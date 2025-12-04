@@ -1,0 +1,40 @@
+name: Test Arbori Syntax
+
+on:
+  push:
+    paths:
+      - '**/*.arbori'
+  pull_request:
+
+jobs:
+  test-formatting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Install SQLcl
+        run: |
+          # Download der aktuellen SQLcl Version (Link muss ggf. angepasst werden oder via Cache gelöst sein)
+          curl -L -o sqlcl.zip https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip
+          unzip -q sqlcl.zip
+          # Mache das Binary ausführbar
+          chmod +x sqlcl/bin/sql
+
+      - name: Create Dummy SQL for Testing
+        run: |
+          echo "SELECT * FROM dual WHERE 1=1;" > test_input.sql
+
+      - name: Run Arbori Syntax Check
+        run: |
+          # Wir führen SQLcl im 'Nolog' Modus aus, da wir keine DB brauchen
+          # Wir übergeben das JS Skript
+          ./sqlcl/bin/sql /nolog script test_runner.js test_input.sql std.arbori
+        continue-on-error: false
