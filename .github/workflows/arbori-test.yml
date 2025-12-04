@@ -41,4 +41,5 @@ jobs:
       - name: Run Arbori Syntax Check
         run: |
           # The '@' symbol is required to execute the file
-          ./sqlcl/bin/sql /nolog @test_runner.js test_input.sql std.arbori
+          # ./sqlcl/bin/sql /nolog @test_runner.js test_input.sql std.arbori
+          ./sqlcl/bin/sql /nolog @"$GITHUB_WORKSPACE/test_runner.js" "$GITHUB_WORKSPACE/test_input.sql" "$GITHUB_WORKSPACE/std.arbori"
