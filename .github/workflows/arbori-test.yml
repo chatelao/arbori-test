@@ -40,7 +40,5 @@ jobs:
 
       - name: Run Arbori Syntax Check
         run: |
-          # Wir führen SQLcl im 'Nolog' Modus aus, da wir keine DB brauchen
-          # Wir übergeben das JS Skript
-          ./sqlcl/bin/sql /nolog script test_runner.js test_input.sql std.arbori
-        continue-on-error: false
+          # The '@' symbol is required to execute the file
+          ./sqlcl/bin/sql /nolog @test_runner.js test_input.sql std.arbori
