@@ -1,6 +1,12 @@
 name: Test Arbori Syntax
 
 on:
+  workflow_dispatch: 
+    inputs:
+      debug_mode:
+        description: 'Run in verbose mode?'
+        required: false
+        default: 'false'
   push:
     paths:
       - '**/*.arbori'
